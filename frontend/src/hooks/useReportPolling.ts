@@ -1,34 +1,16 @@
-import { useEffect, useRef, useState } from "react";
-import { getReport, ReportResponse } from "../services/reportApi";
+import { useEffect, useRef } from "react";
 
-export function useReportPolling(reportId: string | null) {
-  const [report, setReport] = useState<ReportResponse | null>(null);
+export function useReportPolling(hasActive: boolean, onPoll: () => void) {
   const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!reportId) return;
-
-    const poll = async () => {
-      try {
-        const res = await getReport(reportId);
-        setReport(res.data);
-
-        if (res.data.status === "COMPLETED" || res.data.status === "FAILED") {
-          if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-            intervalRef.current = null;
-          }
-        }
-      } catch {
-        if (intervalRef.current) {
-          clearInterval(intervalRef.current);
-          intervalRef.current = null;
-        }
-      }
-    };
-
-    poll();
-    intervalRef.current = window.setInterval(poll, 3000);
+    if (hasActive) {
+      onPoll();
+      intervalRef.current = window.setInterval(onPoll, 3000);
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
 
     return () => {
       if (intervalRef.current) {
@@ -36,7 +18,5 @@ export function useReportPolling(reportId: string | null) {
         intervalRef.current = null;
       }
     };
-  }, [reportId]);
-
-  return report;
+  }, [hasActive, onPoll]);
 }

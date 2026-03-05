@@ -8,10 +8,11 @@ import { useReportPolling } from "./useReportPolling";
 
 export function useReports() {
   const [reports, setReports] = useState<ReportResponse[]>([]);
-  const [activeReportId, setActiveReportId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const polledReport = useReportPolling(activeReportId);
+  const hasActiveReports = reports.some(
+    (r) => r.status === "PENDING" || r.status === "PROCESSING"
+  );
 
   const fetchReports = useCallback(async () => {
     try {
@@ -26,27 +27,13 @@ export function useReports() {
     fetchReports();
   }, [fetchReports]);
 
-  useEffect(() => {
-    if (!polledReport) return;
-
-    setReports((prev) =>
-      prev.map((r) => (r.id === polledReport.id ? polledReport : r))
-    );
-
-    if (
-      polledReport.status === "COMPLETED" ||
-      polledReport.status === "FAILED"
-    ) {
-      setActiveReportId(null);
-    }
-  }, [polledReport]);
+  useReportPolling(hasActiveReports, fetchReports);
 
   const handleGenerate = async () => {
     setLoading(true);
     try {
       const res = await createReport();
       setReports((prev) => [res.data, ...prev]);
-      setActiveReportId(res.data.id);
     } catch (err) {
       console.error("Failed to create report", err);
     } finally {
