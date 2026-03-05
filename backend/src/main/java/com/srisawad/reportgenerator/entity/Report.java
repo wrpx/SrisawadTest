@@ -1,5 +1,6 @@
 package com.srisawad.reportgenerator.entity;
 
+import com.srisawad.reportgenerator.enums.ReportStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

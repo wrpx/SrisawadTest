@@ -1,7 +1,7 @@
 package com.srisawad.reportgenerator.service;
 
 import com.srisawad.reportgenerator.entity.Report;
-import com.srisawad.reportgenerator.entity.ReportStatus;
+import com.srisawad.reportgenerator.enums.ReportStatus;
 import com.srisawad.reportgenerator.repository.ReportRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package com.srisawad.reportgenerator.dto;
 
-import com.srisawad.reportgenerator.entity.ReportStatus;
+import com.srisawad.reportgenerator.enums.ReportStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

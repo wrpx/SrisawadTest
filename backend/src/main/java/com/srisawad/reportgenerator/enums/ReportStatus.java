@@ -1,4 +1,4 @@
-package com.srisawad.reportgenerator.entity;
+package com.srisawad.reportgenerator.enums;
 
 public enum ReportStatus {
     PENDING,

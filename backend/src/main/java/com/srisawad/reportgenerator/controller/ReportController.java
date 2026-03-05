@@ -2,7 +2,7 @@ package com.srisawad.reportgenerator.controller;
 
 import com.srisawad.reportgenerator.dto.ReportResponse;
 import com.srisawad.reportgenerator.entity.Report;
-import com.srisawad.reportgenerator.entity.ReportStatus;
+import com.srisawad.reportgenerator.enums.ReportStatus;
 import com.srisawad.reportgenerator.service.ReportService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
